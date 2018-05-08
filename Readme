@@ -1,0 +1,24 @@
+# docker-srsLTE-enb
+
+## Configure 
+
+Edit enb.conf to reflect your IP and cellular network configuration.
+
+Variables for cellular: enb_id, cell_id, phy_cell_id, tracking_area_code, mobile_country_code, mobile_network_code, eutra_band, downlink_frequency, uplink_frequency_offset
+
+Variables for eNodeB IP config: gtp_bind_addr(eNB IP address)
+
+Variables for 4G EPC: mme_ip_address
+
+## Build
+### Ubuntu 14.04
+docker build -t srsenb_14.04 .
+### Ubuntu 16.04
+docker build -t srsenb_16.04 .
+
+## Run 
+### Ubuntu 14.04
+docker run --net=host --rm --privileged -v /dev/bus/usb:/dev/bus/usb -it srsenb_14.04
+### Ubuntu 16.04
+docker run --net=host --rm --privileged -v /dev/bus/usb:/dev/bus/usb -it srsenb_16.04
+
