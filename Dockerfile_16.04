@@ -23,13 +23,15 @@ RUN wget http://files.ettus.com/binaries/uhd/uhd_003.010.001.001-release/uhd-3.1
 RUN apt-get -yq --no-install-recommends --assume-yes install libfftw3-dev libmbedtls-dev libboost-all-dev libconfig++-dev libsctp-dev 
 
 # Fetching the latest repository and Building the srslte eNB for USRP
-RUN git clone https://github.com/srsLTE/srsLTE.git && cd srsLTE && mkdir build && cd build && cmake ../ && make && make install && ldconfig
+RUN git clone https://github.com/5g-empower/empower-enb-proto.git && cd empower-enb-proto && make && make install
+RUN git clone https://github.com/5g-empower/empower-enb-agent.git && cd empower-enb-agent && make && make install
+RUN git clone https://github.com/5g-empower/empower-srsLTE.git && cd empower-srsLTE && git checkout agent && mkdir build && chmod 755 build && cd build && cmake ../ && make && make install && ldconfig
 
 # Add a sample configuration file
-ADD enb.conf /srsLTE/build/srsenb/src/enb.conf
-ADD drb.conf /srsLTE/build/srsenb/src/drb.conf
-ADD rr.conf /srsLTE/build/srsenb/src/rr.conf
-ADD sib.conf /srsLTE/build/srsenb/src/sib.conf
+ADD enb.conf /empower-srsLTE/enb.conf
+ADD drb.conf /empower-srsLTE/drb.conf
+ADD rr.conf /empower-srsLTE/rr.conf
+ADD sib.conf /empower-srsLTE/sib.conf
 
-# Run directly the eNodeB code 
-ENTRYPOINT ./srsLTE/build/srsenb/src/srsenb /srsLTE/build/srsenb/src/enb.conf
+# Run directly the eNodeB code
+#ENTRYPOINT ./empower-srsLTE/build/srsenb/src/srsenb /srsLTE/enb.conf
